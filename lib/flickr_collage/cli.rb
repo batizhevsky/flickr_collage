@@ -33,11 +33,9 @@ FlickrCollage creates a collage from Flickr images. Just pass tags (upto ten) or
 Usage: bin/flickr_collage --tags tag_one,tag_two,tag_three outputfile.jpg
         TEXT
 
-        opts.on('--tags tag_one,tag_two', 'Specify exact tags. Max 10. More will be dropped') do |tags|
-          result.tags = tags[0..9]
-          exit
+        opts.on('--tags tag_one,tag_two', Array, 'Specify exact tags. Max 10. More will be dropped') do |tags|
+          result.tags = tags.map(&:downcase).uniq[0..9]
         end
-
       end
     end
   end

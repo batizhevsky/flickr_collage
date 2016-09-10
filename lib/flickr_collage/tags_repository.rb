@@ -10,5 +10,10 @@ module FlickrCollage
       @file.seek(@positions.pop)
       @file.gets
     end
+
+    # @param size [Fixnum] number of generated tags
+    def generate_tags(size)
+      size.times.map { tag }
+    end
   end
 end

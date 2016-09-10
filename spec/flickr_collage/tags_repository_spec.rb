@@ -15,4 +15,11 @@ RSpec.describe FlickrCollage::TagsRepository do
       end
     end
   end
+
+  describe '#generate_tags' do
+    it 'returns expected number of tags' do
+      tags = subject.generate_tags(10)
+      expect(tags.size).to eq 10
+    end
+  end
 end

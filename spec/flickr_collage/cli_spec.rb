@@ -28,5 +28,12 @@ Usage: bin/flickr_collage --tags tag_one,tag_two,tag_three outputfile.jpg
       expect(result.output_file).to eq('outputfile.jpg')
       expect(result.output).to be_nil
     end
+
+    it 'donwcased uniq tags' do
+      args = %w(--tags Tag_one,tag_one,tag_tRee outputfile.jpg)
+      result = subject.call(args)
+
+      expect(result.tags).to eq(['tag_one', 'tag_tree'])
+    end
   end
 end
