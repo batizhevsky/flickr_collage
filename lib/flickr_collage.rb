@@ -1,5 +1,8 @@
 require 'flickr_collage/version'
+require 'flickr_collage/cli'
 
 module FlickrCollage
-  # Your code goes here...
+  def self.new
+
+  end
 end

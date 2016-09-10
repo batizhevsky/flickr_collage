@@ -1,28 +1,25 @@
-# FlickrCollage
+# Flickr Collage
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/flickr_collage`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Creates a collage from Flickr top ranked images picked by tags
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Clone this repository to your computer
 
-```ruby
-gem 'flickr_collage'
-```
+    $ git clone https://github.com/batizhevsky/flickr_collage
 
-And then execute:
+Enter to dir
+    
+    $ cd flickr_collage
+
+Install dependencies:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install flickr_collage
-
 ## Usage
 
-TODO: Write usage instructions here
+
+
 
 ## Development
 
