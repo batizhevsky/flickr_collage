@@ -4,6 +4,8 @@ Creates a collage from Flickr top ranked images picked by tags
 
 ## Installation
 
+You should have ImageMagic installed in your system, more info: http://rmagick.rubyforge.org/install-faq.html
+
 Clone this repository to your computer
 
     $ git clone https://github.com/batizhevsky/flickr_collage
@@ -17,7 +19,6 @@ Install dependencies:
     $ bundle
 
 ## Usage
-
 
 
 
