@@ -15,6 +15,7 @@ module FlickrCollage
       }).first
 
       if result
+        result = result.to_hash
         result['url'] = result['url_c']
         result
       end

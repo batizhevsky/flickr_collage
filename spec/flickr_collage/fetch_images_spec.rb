@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "http"
+require 'http'
 
 RSpec.describe FlickrCollage::FetchImages do
   describe '#download' do

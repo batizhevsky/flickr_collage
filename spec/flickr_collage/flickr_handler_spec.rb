@@ -19,11 +19,11 @@ RSpec.describe FlickrCollage::FlickrHandler do
 
     it 'returns a hash with image url' do
       allow(api_client).to receive_message_chain(:photos, :search) do
-        [{
+        [FlickRaw::Response.new({
           'id' => '21872151562',
           'url_c' => 'https://farm6.staticflickr.com/5798/21872151562_318b196b23_c.jpg',
           'height_c' => 534, 'width_c' => '800'
-        }]
+        }, nil)]
       end
 
       result = subject.top_with_tag('test_tag')

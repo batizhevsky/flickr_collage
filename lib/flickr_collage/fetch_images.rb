@@ -1,3 +1,4 @@
+require 'http'
 module FlickrCollage
   class FetchImages
     def initialize

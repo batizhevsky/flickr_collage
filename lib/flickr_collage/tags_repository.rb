@@ -1,14 +1,14 @@
 module FlickrCollage
   class TagsRepository
     include Enumerable
-    def initialize(source: '/usr/share/dict/words')
-      @file = ::File.open(source)
+    def initialize(source_file: ::File.open('/usr/share/dict/words'))
+      @file = source_file
       @positions = @file.each_line.inject([0]) { |memo,l| memo << memo.last + l.size }.shuffle
     end
 
     def tag
       @file.seek(@positions.pop)
-      @file.gets
+      @file.gets.chomp.downcase
     end
 
     # @param size [Fixnum] number of generated tags
