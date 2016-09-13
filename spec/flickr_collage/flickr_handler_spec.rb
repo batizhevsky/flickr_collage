@@ -1,37 +1,47 @@
 require 'spec_helper'
 
 RSpec.describe FlickrCollage::FlickrHandler do
-  let(:api_client) { double('flickr_api') }
+  let(:config) { { 'FLICKR_API_KEY' => 'api_key', 'FLICKR_SHARED_SECRET' => 'secret' }}
 
-  subject { described_class.new(api_client: api_client) }
+  subject { described_class.new(config: FlickrCollage::Config.new(config) ) }
 
   describe '#top_with_tag' do
     it 'calls an api client' do
-      expect(api_client).to receive_message_chain(:photos, :search).with({
-          tags: ['test_tag'],
-          extras: 'url_c',
-          sort: 'interestingness-desc',
-          per_page: 1
-        }) { [] }
+      response = '{ "photos": { "photo": [] }}'
+      stub_request(:get, /api\.flickr\.com/).to_return(status: 200, body: response, headers: {})
 
       subject.top_with_tag('test_tag')
+
+      expect(WebMock).to have_requested(:get, 'https://api.flickr.com/services/rest/').
+        with(query: hash_including({
+          'method' => 'flickr.photos.search',
+          'tags' => 'test_tag',
+          'api_key' => 'api_key',
+          'shared_secret' => 'secret'
+        }))
     end
 
     it 'returns a hash with image url' do
-      allow(api_client).to receive_message_chain(:photos, :search) do
-        [FlickRaw::Response.new({
+      response = { photos: { photo: [
+        {
           'id' => '21872151562',
           'url_c' => 'https://farm6.staticflickr.com/5798/21872151562_318b196b23_c.jpg',
           'height_c' => 534, 'width_c' => '800'
-        }, nil)]
-      end
+        }
+      ] } }.to_json
+
+      stub_request(:get, /api\.flickr\.com/).
+        to_return(status: 200, body: response, headers: {})
 
       result = subject.top_with_tag('test_tag')
       expect(result['url']).to eq 'https://farm6.staticflickr.com/5798/21872151562_318b196b23_c.jpg'
     end
 
     it 'returns an empty hash if no results' do
-      allow(api_client).to receive_message_chain(:photos, :search) { [] }
+      response = '{ "photos": { "photo": [] }}'
+
+      stub_request(:get, /api\.flickr\.com/).
+        to_return(status: 200, body: response, headers: {})
 
       result = subject.top_with_tag('non_exists')
       expect(result).to eq nil

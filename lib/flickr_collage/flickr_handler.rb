@@ -1,30 +1,50 @@
 require 'flickraw'
+require 'http'
 
 module FlickrCollage
   class FlickrHandler
-    def initialize(api_client: flickr_api)
-      @api = api_client
+    def initialize(config: FlickrCollage.config)
+      @base_url = 'https://api.flickr.com'
+      @path = '/services/rest/'
+
+      @connection = HTTP.persistent(@base_url)
+
+      @default_params = {
+        api_key: config.flickr_api_key,
+        shared_secret: config.flickr_shared_key,
+        format: :json,
+        nojsoncallback: 1
+      }
     end
 
     def top_with_tag(tag)
-      result = @api.photos.search({
+      params = {
+        method: 'flickr.photos.search',
         tags: [tag],
         extras: 'url_c',
         sort: 'interestingness-desc',
-        per_page: 1
-      }).first
+        per_page: 5
+      }
 
-      if result
-        result = result.to_hash
-        result['url'] = result['url_c']
-        result
+      images = request_with_params(params)
+      image = images.select { |image| image['url_c'] }.first
+
+      if image
+        image['url'] = image['url_c']
+        image
       end
     end
 
     private
 
-    def flickr_api
-      FlickRaw::Flickr.new(api_key: ENV['FLICKR_API_KEY'], shared_secret: ENV['FLICKR_SHARED_SECRET'])
+    def request_with_params(params)
+      response = @connection.get(@path, params: params.merge(@default_params)).to_s
+      json = JSON.load(response)
+      if json && json['photos'] && json['photos']['photo']
+        json['photos']['photo']
+      else
+        []
+      end
     end
   end
 end
