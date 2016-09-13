@@ -20,6 +20,28 @@ Install dependencies:
 
 ## Usage
 
+Flickr API keys required. You could get them from https://www.flickr.com/services/apps/create/
+You could export them as env variables `export FLICKR_API_KEY=key` and `export FLICKR_SHARED_SECRET=secret`
+or you could specify them at `.env` file (see https://github.com/bkeepers/dotenv)
+
+To start run
+
+    $ bin/flickr_collage
+  
+and your see help output
+
+The simples run:
+
+    $ bin/flickr_collage /tmp/random_tags_collage.jpeg
+    
+or with dotenv (to load API keys from file):
+
+    $ dotenv bin/flickr_collage /tmp/random_tags_collage.jpeg
+
+
+You could specify tags:
+
+    $ ./bin/flickr_collage --tags olympus nikon bronica canon pentax /tmp/colage_output.png
 
 
 ## Development
