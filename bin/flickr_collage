@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'flickr_collage'
+
+params = FlickrCollage::CLI.new.call($ARGV)
+if params.output
+  puts params.output
+else
+  FlickrCollage::Client.new.call(params)
+end

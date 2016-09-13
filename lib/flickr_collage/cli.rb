@@ -17,10 +17,13 @@ module FlickrCollage
     end
 
     def call(args)
-      if args.empty?
-        @result.output = option_parser.help
+      option_parser.parse!(args)
+      filename = args.pop
+
+      if filename
+        result.output_file = filename
       else
-        option_parser.parse!(args)
+        @result.output = option_parser.help
       end
 
       @result

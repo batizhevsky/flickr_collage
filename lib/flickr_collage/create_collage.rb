@@ -7,10 +7,11 @@ module FlickrCollage
       result_image = Magick::ImageList.new
       result_image.push(*images)
 
+      largest_image = images.sort_by { |image| image.rows }.last
       result_image.montage {
         self.tile = '5x2'
         self.background_color = 'black'
-        self.geometry = "#{ images.first.columns }x#{ images.first.rows }+10+10"
+        self.geometry = "#{ largest_image.columns }x#{ largest_image.rows }+10+10"
         self.border_width = 10
         self.border_color = 'black'
       }
