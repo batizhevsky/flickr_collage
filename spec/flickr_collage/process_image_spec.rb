@@ -2,16 +2,16 @@ require 'spec_helper'
 
 RSpec.describe FlickrCollage::ProcessImage do
   let(:square_image) { IO.read(File.expand_path('../../fixtures/square.png', __FILE__)) }
-  let(:landscape) { IO.read(File.expand_path('../../fixtures/square.png', __FILE__)) }
-  let(:portrait) { IO.read(File.expand_path('../../fixtures/square.png', __FILE__)) }
+  let(:landscape) { IO.read(File.expand_path('../../fixtures/landscape.png', __FILE__)) }
+  let(:portrait) { IO.read(File.expand_path('../../fixtures/portrait.png', __FILE__)) }
 
 
   def landscape_rectangle?(image)
-    image.rows > image.columns
+    image.columns > image.rows
   end
 
   def true_photo_ratio?(image)
-    (image.rows.to_f / image.columns).to_s[0..2] == '1.3'
+    (image.columns.to_f / image.rows).to_s[0..2] == '1.3'
   end
 
   describe '#crop_rectangular' do
